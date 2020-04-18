@@ -2,29 +2,13 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { Spinner, Button } from 'react-bootstrap';
 import './classifier.css';
-// import axios from 'axios';
+import axios from 'axios';
 
 class Classifier extends Component {
   state = {
     files: [],
     isLoading: false
   };
-
-  //   componentDidMount() {
-  //     this.getImages();
-  //   }
-
-  //   getImages = () => {
-  //     axios
-  //       .get('http://127.0.0.1:8000/api/images/', {
-  //         headers: {
-  //           accept: 'application/json'
-  //         }
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //       });
-  //   };
 
   onDrop = files => {
     this.setState({
@@ -41,10 +25,24 @@ class Classifier extends Component {
           isLoading: false
         },
         () => {
-          console.log(this.state.files);
+          console.log(this.state.files[0].name);
         }
       );
     }, 1000);
+  };
+
+  sendImage = () => {
+    let formData = new FormData()
+    formData.append('picture', this.state.files[0], this.state.files[0].name)
+    axios.post('http://127.0.0.1:8000/api/images/', formData, {
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'multipart/form-data'
+        }
+      })
+      .then(resp => {
+        console.log(resp);
+      });
   };
 
   render() {
@@ -72,7 +70,12 @@ class Classifier extends Component {
             </div>
             <aside>{files}</aside>
             {this.state.files.length > 0 && (
-              <Button variant='info' size='lg' className='mt-3'>
+              <Button
+                variant='info'
+                size='lg'
+                className='mt-3'
+                onClick={this.sendImage}
+              >
                 Select Image
               </Button>
             )}
