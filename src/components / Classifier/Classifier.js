@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { Spinner } from 'react-bootstrap';
 import './classifier.css';
-import axios from 'axios';
+// import axios from 'axios';
 
 class Classifier extends Component {
   state = {
@@ -10,21 +10,21 @@ class Classifier extends Component {
     isLoading: false
   };
 
-  componentDidMount() {
-    this.getImages();
-  }
+  //   componentDidMount() {
+  //     this.getImages();
+  //   }
 
-  getImages = () => {
-    axios
-      .get('http://127.0.0.1:8000/api/images/', {
-        headers: {
-          accept: 'application/json'
-        }
-      })
-      .then(resp => {
-        console.log(resp);
-      });
-  };
+  //   getImages = () => {
+  //     axios
+  //       .get('http://127.0.0.1:8000/api/images/', {
+  //         headers: {
+  //           accept: 'application/json'
+  //         }
+  //       })
+  //       .then(resp => {
+  //         console.log(resp);
+  //       });
+  //   };
 
   onDrop = files => {
     this.setState({
@@ -35,10 +35,15 @@ class Classifier extends Component {
 
   loadImage = files => {
     setTimeout(() => {
-      this.setState({
-        files,
-        isLoading: false
-      });
+      this.setState(
+        {
+          files,
+          isLoading: false
+        },
+        () => {
+          console.log(this.state.files);
+        }
+      );
     }, 1000);
   };
 
@@ -48,6 +53,7 @@ class Classifier extends Component {
         {file.name} - {file.size} bytes
       </li>
     ));
+
     return (
       <Dropzone onDrop={this.onDrop} accept='image/png, image/jpeg'>
         {({ isDragActive, getRootProps, getInputProps }) => (
