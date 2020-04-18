@@ -2,11 +2,28 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { Spinner } from 'react-bootstrap';
 import './classifier.css';
+import axios from 'axios';
 
 class Classifier extends Component {
   state = {
     files: [],
     isLoading: false
+  };
+
+  componentDidMount() {
+    this.getImages();
+  }
+
+  getImages = () => {
+    axios
+      .get('http://127.0.0.1:8000/api/images/', {
+        headers: {
+          accept: 'application/json'
+        }
+      })
+      .then(resp => {
+        console.log(resp);
+      });
   };
 
   onDrop = files => {
