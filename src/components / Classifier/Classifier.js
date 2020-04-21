@@ -31,7 +31,19 @@ class Classifier extends Component {
     }, 1000);
   };
 
+  activateSpinner = () => {
+    this.setState({ 
+      files: [],
+      isLoading: true,
+     })
+  }
+
+  deactivateSpinner = () => {
+    this.setState({ isLoading: false })
+  }
+
   sendImage = () => {
+    this.activateSpinner()
     let formData = new FormData()
     formData.append('picture', this.state.files[0], this.state.files[0].name)
     axios.post('http://127.0.0.1:8000/api/images/', formData, {
@@ -41,12 +53,28 @@ class Classifier extends Component {
         }
       })
       .then(resp => {
-        console.log(resp);
+        this.getImageClass(resp)
+        console.log(resp.data.id);
       })
       .catch(err => {
           console.log(err)
       })
   };
+
+  getImageClass = (obj) => {
+    axios.get(`http://127.0.0.1:8000/api/images/${obj.data.id}/`, {
+      headers: {
+        'accept': 'application/json',
+      }
+    })
+    .then(resp=>{
+      console.log(resp)
+    })
+    .catch(err => {
+      console.log(err)
+  })
+  this.deactivateSpinner()
+  }
 
   render() {
     const files = this.state.files.map(file => (
