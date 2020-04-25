@@ -11,6 +11,8 @@ class Classifier extends Component {
     recentImage: null,
   };
 
+
+
   onDrop = files => {
     this.setState({
       files: [],

@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
-import Classifier from './components / Classifier/Classifier';
+import Classifier from './components/Classifier/Classifier';
+import ImageList from './components/imageList/ImageList';
 
 function App() {
   return (
     <div className='App'>
-      <Classifier />
+      {/* <Classifier /> */}
+      <ImageList />
     </div>
   );
 }
