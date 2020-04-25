@@ -51,6 +51,7 @@ class ImageList extends Component {
     });
     return (
       <div>
+          <br />
         {this.state.isLoading ? 
           <Spinner animation='border' role='status'></Spinner>
          : 
