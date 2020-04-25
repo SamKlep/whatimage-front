@@ -118,7 +118,6 @@ class Classifier extends Component {
             )}
             {this.state.isLoading && (
               <Spinner animation='border' role='status'>
-                <span className='sr-only'>Loading...</span>
               </Spinner>
             )}
 
